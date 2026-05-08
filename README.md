@@ -152,3 +152,13 @@ If you want to test on PCSX2 using KrHacken's repacked DVD players, it loads `ud
 
 ## PORTING:
 Please read my technical writeup, to understand how the exploit works. I've also provided some [notes about porting](https://cturt.github.io/FreeDVDBoot/portingnotes.html) in the [`gh-pages`](https://github.com/CTurt/FreeDVDBoot/tree/gh-pages) branch.
+
+To test this fork use:
+`sudo docker run --rm -v $(pwd):/src -it ps2dev/ps2dev:v1.0 /bin/sh` (pwd is ~/FreeDVDBoot-2.13E/PAYLOADS/1.00-2.13)
+in the container:
+```
+apk add make
+apk add cdrkit
+cd src
+make -f hardware.mk
+```

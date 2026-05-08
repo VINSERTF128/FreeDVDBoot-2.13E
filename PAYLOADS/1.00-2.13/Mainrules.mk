@@ -32,7 +32,7 @@ dvd.iso: dvd.base.iso stage1_210_212.iop.bin stage1_213.iop.bin ioppayload.iop.b
 	cp dvd.base.iso dvd.iso
 
 	# Return address (2.10 - 2.13) 0x00818f4 = 530676
-	printf $(STAGE1_LOAD_ADDRESS_STRING_210_212) | dd of=dvd.iso bs=1 seek=530676 count=4 conv=notrunc
+	printf $(STAGE1_LOAD_ADDRESS_STRING_213) | dd of=dvd.iso bs=1 seek=530676 count=4 conv=notrunc
 
 	# Return address 1.10 (0x000818bc = 530620)
 	printf $(STAGE1_LOAD_ADDRESS_STRING_110) | dd of=dvd.iso bs=1 seek=530620 count=4 conv=notrunc
@@ -40,11 +40,11 @@ dvd.iso: dvd.base.iso stage1_210_212.iop.bin stage1_213.iop.bin ioppayload.iop.b
 	# Old toolchains don't support this option, so just copy byte-by-byte...
 	# bs=4096 iflag=skip_bytes,count_bytes
 	
-	dd if=stage1_210_212.iop.bin of=dvd.iso bs=1 seek=$(STAGE1_ISO_210_212) count=$(IOP_STAGE1_SIZE_210_212) conv=notrunc
+	#dd if=stage1_210_212.iop.bin of=dvd.iso bs=1 seek=$(STAGE1_ISO_210_212) count=$(IOP_STAGE1_SIZE_210_212) conv=notrunc
 	dd if=stage1_213.iop.bin of=dvd.iso bs=1 seek=$(STAGE1_ISO_213) count=$(IOP_STAGE1_SIZE_213) conv=notrunc
 	
 	# 0x700000 = 7340032
-	dd if=ioppayload.iop.bin of=dvd.iso bs=1 seek=7340032 count=$(IOP_PAYLOAD_SIZE) conv=notrunc
+	dd if=ioppayload.iop.bin of=dvd.iso bs=1 seek=7340032 count=2463 conv=notrunc
 
 %.iop.bin: %.iop.elf
 	$(IOP_OBJCOPY) -O binary $< $@
